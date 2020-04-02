@@ -1,0 +1,42 @@
+{
+  "name": "radio-operator",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "stylus": "^0.54.7"
+  },
+  "scripts": {
+    "build-css": "stylus -c src/static/stylus/index.styl --out src/static/css",
+    "watch-css": "npm run build-css && stylus -w src/static/stylus/ -o src/static/css",
+    "start-js": "react-scripts start",
+    "start": "concurrently -n w:css,react -c yellow,blue 'npm:watch-css' 'npm:start-js'",
+    "build-js": "react-scripts build",
+    "build": "concurrently 'npm:build-css' 'npm:build-js'",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
