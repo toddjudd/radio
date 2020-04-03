@@ -120,7 +120,18 @@ const RadioApp = () => {
             }
             switch (pathAction.action) {
               case 'sonar':
-                break;
+                switch (pathAction.type) {
+                  case 'hit':
+                    // if path node is not == to hit mark node as not starting loc and move on
+                    break;
+                  case 'miss':
+                    // if path node is equal to miss mark node as not starting loc and move on
+                    break;
+
+                  default:
+                    break;
+                }
+                return accCell;
               case 'direction':
                 // console.log('accCell.possibleStartPos is not undefined, and is true');
                 // console.log(`Direction Switch: ${i}. ${direction}`);
@@ -187,69 +198,6 @@ const RadioApp = () => {
                 }
                 break;
               default:
-                break;
-            }
-            // console.log('accCell.possibleStartPos is not undefined, and is true');
-            // console.log(`Direction Switch: ${i}. ${direction}`);
-            switch (pathAction.type) {
-              case 'north':
-                // console.log('checking North Direction');
-                if (accCell.pathCell) {
-                  // console.log('PathCell Exists');
-                  if (accCell.pathCell.r - 1 < 0) {
-                    // console.log('moving North on Path Cell foces out of range');
-                    // console.log('returning accCell as is with False Possible Start');
-                    return { ...accCell, possibleStartPos: false };
-                  }
-                  // console.log('setting Path cell to one Cell North');
-                  accCell.pathCell = grid[accCell.pathCell.r - 1][accCell.pathCell.c];
-                } else {
-                  if (accCell.r - 1 < 0) {
-                    // console.log('moving North on Path Cell foces out of range');
-                    // console.log('returning accCell as is with False Possible Start');
-                    return { ...accCell, possibleStartPos: false };
-                  }
-                  // console.log('setting Path cell to one Cell North');
-                  accCell.pathCell = grid[accCell.r - 1][accCell.c];
-                }
-                break;
-              case 'south':
-                // console.log('checking South Direction');
-                if (accCell.pathCell) {
-                  // console.log('PathCell Exists');
-                  if (accCell.pathCell.r + 1 >= numRows) {
-                    // console.log('moving South on Path Cell foces out of range');
-                    // console.log('returning accCell as is with False Possible Start');
-                    return { ...accCell, possibleStartPos: false };
-                  }
-                  // console.log('setting Path cell to one Cell South');
-                  accCell.pathCell = grid[accCell.pathCell.r + 1][accCell.pathCell.c];
-                } else {
-                  if (accCell.r + 1 >= numRows) {
-                    // console.log('moving South on Path Cell foces out of range');
-                    // console.log('returning accCell as is with False Possible Start');
-                    return { ...accCell, possibleStartPos: false };
-                  }
-                  // console.log('setting Path cell to one Cell South');
-                  accCell.pathCell = grid[accCell.r + 1][accCell.c];
-                }
-                break;
-              case 'east':
-                if (accCell.pathCell) {
-                  accCell.pathCell = grid[accCell.pathCell.r][accCell.pathCell.c + 1];
-                } else {
-                  accCell.pathCell = grid[accCell.r][accCell.c + 1];
-                }
-                break;
-              case 'west':
-                if (accCell.pathCell) {
-                  accCell.pathCell = grid[accCell.pathCell.r][accCell.pathCell.c - 1];
-                } else {
-                  accCell.pathCell = grid[accCell.r][accCell.c - 1];
-                }
-                break;
-              default:
-                // return accCell;
                 break;
             }
             // console.log('current status of acc and path Cells after Direction:');
