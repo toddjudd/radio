@@ -1,21 +1,127 @@
 body {
   font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  margin: 0;
+}
+.RadioApp {
+  display: grid;
+  grid-template-areas: "header header header" "form grid compass" "form grid log";
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: min-content 1fr 3fr;
+  grid-gap: 16px;
+  justify-items: center;
+  height: 100vh;
+}
+h1 {
+  grid-area: header;
+  font-size: 4em;
+}
+form {
+  grid-area: form;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+form label {
+  display: flex;
+  flex-direction: column;
+}
+form label span {
+  padding: 8px;
+  padding-left: 0;
+}
+form label input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #808080;
+  border-radius: 0;
+  outline: none;
+  width: 100%;
+  height: 3rem;
+  margin: 0 0 8px 0;
+  padding: 0;
+  box-shadow: none;
+  box-sizing: content-box;
+  transition: box-shadow 0.3s, border 0.3s, -webkit-box-shadow 0.3s;
 }
 .map {
   display: grid;
+  grid-area: grid;
 }
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   border: solid 1px #808080;
   background-color: ocean;
+  color: #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.cell i {
+  display: none;
 }
 .startPos {
   background-color: startPos;
 }
-.endPos {
-  border: solid 1px endPos;
+.endPos i {
+  display: block;
 }
 .island {
   background-color: island;
+}
+.compass {
+  grid-area: compass;
+  display: grid;
+  grid-template-areas: ". north ." "west . east" ". south ." ". . ." ". surface silent";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+.compass .north {
+  grid-area: north;
+}
+.compass .south {
+  grid-area: south;
+}
+.compass .east {
+  grid-area: east;
+}
+.compass .west {
+  grid-area: west;
+}
+.compass .surface {
+  grid-area: surface;
+}
+.compass .silent {
+  grid-area: silent;
+}
+.log {
+  grid-area: log;
+  overflow-y: scroll;
+  max-height: 100%;
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+.log .log-entry {
+  margin: 0 0 2px 0;
+}
+.log::-webkit-scrollbar {
+  width: 4px;
+}
+.log::-webkit-scrollbar-track {
+  color: transparent;
+  background: transparent;
+}
+.log::-webkit-scrollbar-thumb {
+  background-color: #00f;
+}
+button {
+  background: #ffa500;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  padding: 8px;
 }

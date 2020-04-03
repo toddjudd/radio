@@ -2,6 +2,7 @@
   "name": "radio-operator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://toddjudd.github.io/radio/.",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
+    "gh-pages": "^2.2.0",
     "stylus": "^0.54.7"
   },
   "scripts": {
@@ -23,7 +25,9 @@
     "build-js": "react-scripts build",
     "build": "concurrently 'npm:build-css' 'npm:build-js'",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

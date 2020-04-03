@@ -1,16 +1,114 @@
 body {
   font-family: 'Roboto', sans-serif;
+  font-size 16px
+  font-weight normal
+  margin 0
 }
+.RadioApp
+  display grid
+  grid-template-areas:\
+    "header header header"\
+    "form grid compass"\
+    "form grid log";
+  grid-template-columns 1fr 3fr 1fr
+  grid-template-rows min-content 1fr 3fr
+  grid-gap: 16px;
+  justify-items: center;
+  height 100vh
+h1
+  grid-area header 
+  font-size 4em
+form
+  grid-area form
+  display flex
+  flex-direction column
+  justify-content flex-start
+  label
+    display flex
+    flex-direction column
+    span 
+      padding 8px
+      padding-left 0
+    input 
+      background-color transparent
+      border none 
+      border-bottom 1px solid grey
+      border-radius 0
+      outline:none
+      width:100%
+      height 3rem
+      margin 0 0 8px 0
+      padding 0
+      box-shadow none
+      box-sizing content-box
+      transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
+
 .map
   display grid
+  grid-area grid
 .cell
-  width 30px
-  height 30px
+  width 60px
+  height 60px
   border solid 1px grey
   background-color ocean
+  color grey
+  display flex
+  justify-content center
+  align-items center
+  align-content center
+  i 
+    display none
 .startPos
   background-color startPos
 .endPos
-  border solid 1px endPos
+  // border solid 1px endPos
+  i 
+    display block
 .island
   background-color island
+.compass
+  grid-area compass
+  display grid
+  grid-template-areas:\
+    ". north ."\
+    "west . east"\
+    ". south ."\
+    ". . ."\
+    ". surface silent";
+  grid-template-columns 1fr 1fr 1fr
+  grid-template-rows 1fr 1fr 1fr 1fr 1fr
+  .north
+    grid-area north
+  .south
+    grid-area south
+  .east
+    grid-area east
+  .west
+    grid-area west
+  .surface
+    grid-area surface
+  .silent
+    grid-area silent
+.log
+  grid-area log
+  overflow-y scroll
+  max-height 100%
+  width 100%
+  padding 4px
+  box-sizing border-box
+  .log-entry
+    margin 0 0 2px 0
+  &::-webkit-scrollbar
+    width 4px
+  &::-webkit-scrollbar-track
+    color transparent
+    background transparent
+  &::-webkit-scrollbar-thumb
+    background-color: blue
+
+button 
+  background orange 
+  color white
+  border none 
+  border-radius 0
+  padding 8px

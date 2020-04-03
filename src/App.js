@@ -344,26 +344,36 @@ const RadioApp = () => {
     <div className='RadioApp'>
       <h1>RadioApp</h1>
       <form onSubmit={e => e.prevenDefault}>
-        <input
-          type='number'
-          name='rows'
-          value={radioState.rows}
-          onChange={e => raidoDispatch({ type: 'rows', payload: parseInt(e.target.value) || 1 })}
-        />
-        <input
-          type='number'
-          name='columns'
-          value={radioState.columns}
-          onChange={e => raidoDispatch({ type: 'columns', payload: parseInt(e.target.value) || 1 })}
-        />
-        <button type='button' onClick={() => raidoDispatch({ type: 'toggle-map' })}>
-          Toggle{' '}
-          {radioState.mapAction &&
-            radioState.mapAction
-              .split('-')
-              .map(word => capitalizeFirstLetter(word))
-              .join(' ')}
-        </button>
+        <label htmlFor='rows'>
+          <span className='label-content'>Rows:</span>
+          <input
+            type='number'
+            name='rows'
+            value={radioState.rows}
+            onChange={e => raidoDispatch({ type: 'rows', payload: parseInt(e.target.value) || 1 })}
+          />
+        </label>
+        <label htmlFor='columns'>
+          <span className='label-content'>Columns:</span>
+          <input
+            type='number'
+            name='columns'
+            value={radioState.columns}
+            onChange={e =>
+              raidoDispatch({ type: 'columns', payload: parseInt(e.target.value) || 1 })
+            }
+          />
+        </label>
+        <label htmlFor='none'>
+          <span className='label-content'>Toggle Map Input:</span>
+          <button type='button' onClick={() => raidoDispatch({ type: 'toggle-map' })}>
+            {radioState.mapAction &&
+              radioState.mapAction
+                .split('-')
+                .map(word => capitalizeFirstLetter(word))
+                .join(' ')}
+          </button>
+        </label>
       </form>
       <div
         className='map'
@@ -385,27 +395,52 @@ const RadioApp = () => {
               onClick={() => {
                 console.log('click');
                 raidoDispatch({ type: radioState.mapAction, payload: { r, c } });
-              }}></div>
+              }}>
+              <i className='fas fa-ship'></i>
+            </div>
           ))
         )}
       </div>
       <div className='compass'>
-        <button onClick={() => raidoDispatch({ type: 'move', payload: 'north' })} type='button'>
-          North
+        <button
+          className='north'
+          onClick={() => raidoDispatch({ type: 'move', payload: 'north' })}
+          type='button'>
+          {/* North */}
+          <i className='fas fa-arrow-up'></i>
         </button>
-        <button onClick={() => raidoDispatch({ type: 'move', payload: 'east' })} type='button'>
-          East
+        <button
+          className='east'
+          onClick={() => raidoDispatch({ type: 'move', payload: 'east' })}
+          type='button'>
+          {/* East */}
+          <i className='fas fa-arrow-right'></i>
         </button>
-        <button onClick={() => raidoDispatch({ type: 'move', payload: 'south' })} type='button'>
-          South
+        <button
+          className='south'
+          onClick={() => raidoDispatch({ type: 'move', payload: 'south' })}
+          type='button'>
+          {/* South */}
+          <i className='fas fa-arrow-down'></i>
         </button>
-        <button onClick={() => raidoDispatch({ type: 'move', payload: 'west' })} type='button'>
-          West
+        <button
+          className='west'
+          onClick={() => raidoDispatch({ type: 'move', payload: 'west' })}
+          type='button'>
+          <i className='fas fa-arrow-left'></i>
+          {/* West */}
         </button>
-        <button onClick={() => raidoDispatch({ type: 'move', payload: 'surface' })} type='button'>
+        <button
+          className='surface'
+          onClick={() => raidoDispatch({ type: 'move', payload: 'surface' })}
+          type='button'>
           Surface
         </button>
-        <button onClick={() => raidoDispatch({ type: 'silent' })} type='button'>
+        <button
+          className='silent'
+          onClick={() => raidoDispatch({ type: 'silent' })}
+          type='button'
+          disabled>
           Silent
         </button>
       </div>
