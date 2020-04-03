@@ -401,8 +401,8 @@ const RadioApp = () => {
       <div className='log'>
         {radioState.path.map((pathAction, i) => (
           <div className='log-entry' key={i}>
-            <span className='action'>{pathAction.action}</span>
-            <span className='type'>{pathAction.type}</span>
+            <span className='action'>{pathAction.action} </span>
+            <span className='type'>{pathAction.type} </span>
             {pathAction.cell ? (
               <span className='sonar-cell'>
                 {pathAction.cell.r}-{pathAction.cell.c}
