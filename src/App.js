@@ -92,6 +92,9 @@ const RadioApp = () => {
           path: [...state.path, { action: 'direction', type: action.payload }],
           grid
         };
+      case 'silent':
+        console.log('silent');
+        return state;
       default:
         return null;
     }
@@ -137,7 +140,7 @@ const RadioApp = () => {
           return path.reduce((accCell, pathAction, i, path) => {
             // console.log('reducing');
             if (i === 0) {
-              // console.log('initial reduce - Nulling pathCell');
+              console.log('initial reduce - Nulling pathCell');
               accCell.pathCell = null;
             }
             if (typeof accCell.possibleStartPos !== 'undefined' && !accCell.possibleStartPos) {
@@ -180,6 +183,7 @@ const RadioApp = () => {
                         ) {
                           // console.log('path node is not in sonar hits');
                           return { ...accCell, possibleStartPos: false };
+                          // returning this here I beleive this is killing the path cell tree
                         }
                       } else {
                         // console.log("path cell doesn't exist");
@@ -201,6 +205,7 @@ const RadioApp = () => {
                         ) {
                           // console.log('AccCell node is not in sonar hits');
                           return { ...accCell, possibleStartPos: false };
+                          // returning this here I beleive this is killing the path cell tree
                         }
                       }
                     }
@@ -396,6 +401,12 @@ const RadioApp = () => {
         </button>
         <button onClick={() => raidoDispatch({ type: 'move', payload: 'west' })} type='button'>
           West
+        </button>
+        <button onClick={() => raidoDispatch({ type: 'move', payload: 'surface' })} type='button'>
+          Surface
+        </button>
+        <button onClick={() => raidoDispatch({ type: 'silent' })} type='button'>
+          Silent
         </button>
       </div>
       <div className='log'>
