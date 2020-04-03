@@ -66,13 +66,13 @@ const RadioApp = () => {
 
         const flatGrid = [].concat.apply([], calcedGrid);
 
-        console.log(flatGrid);
+        // console.log(flatGrid);
 
         const possibleEndPos = flatGrid
           .filter(cell => cell.possibleStartPos && cell.pathCell)
           .map(cell => cell.pathCell);
 
-        console.log(possibleEndPos);
+        // console.log(possibleEndPos);
 
         const grid = calcedGrid.map((rows, r) => {
           return rows.map((cell, c) => {
@@ -143,26 +143,72 @@ const RadioApp = () => {
             if (typeof accCell.possibleStartPos !== 'undefined' && !accCell.possibleStartPos) {
               return accCell;
             }
+            // console.log('pathAction');
+            // console.log(pathAction);
             switch (pathAction.action) {
               case 'sonar':
+                // console.log('sonar');
                 switch (pathAction.type) {
                   case 'hit':
-                    // if path node is not == to hit mark node as not starting loc and move on
+                    // console.log('hit');
+                    //if first
+                    if (i === 0 || path[i - 1].type !== 'hit') {
+                      // console.log('isFirstHit');
+                      //set first on accCell
+                      accCell.tmpSonarFirstHit = i;
+                      // console.log(accCell.tmpSonarFirstHit);
+                      //keep going in logic in even only one sonar hit in list
+                    }
+                    //if last
+                    if (path[i + 1].type !== 'hit') {
+                      // console.log('isLastHit');
+                      //grab copy of path array... split to only the bits we need
+                      const sonarHits = [...path].slice(accCell.tmpSonarFirstHit, i + 1);
+                      // console.log(sonarHits);
+                      // if path node is not in copy of array of hit mark nodes. set as not starting loc and move on
+                      if (accCell.pathCell) {
+                        // console.log('path cell exists');
+                        // console.log(accCell.pathCell);
+                        if (
+                          !(
+                            sonarHits.findIndex(
+                              hit =>
+                                accCell.pathCell.r === hit.cell.r &&
+                                accCell.pathCell.c === hit.cell.c
+                            ) + 1
+                          )
+                        ) {
+                          // console.log('path node is not in sonar hits');
+                          return { ...accCell, possibleStartPos: false };
+                        }
+                      } else {
+                        // console.log("path cell doesn't exist");
+                        // console.log(accCell);
+                        // console.log(
+                        //   !(
+                        //     sonarHits.findIndex(hit => {
+                        //       return accCell.r === hit.cell.r && accCell.c === hit.cell.c;
+                        //     }) + 1
+                        //   )
+                        // );
+                        if (
+                          !(
+                            sonarHits.findIndex(hit => {
+                              // console.log('findIndex');
+                              return accCell.r === hit.cell.r && accCell.c === hit.cell.c;
+                            }) + 1
+                          )
+                        ) {
+                          // console.log('AccCell node is not in sonar hits');
+                          return { ...accCell, possibleStartPos: false };
+                        }
+                      }
+                    }
+                    // console.log('isMiddleHit');
 
-                    // This block doesnt work - it's close but It count's the sonars individually not as an array or group...
-                    // if (accCell.pathCell) {
-                    //   if (
-                    //     accCell.pathCell.c !== pathAction.cell.c ||
-                    //     accCell.pathCell.r !== pathAction.cell.r
-                    //   ) {
-                    //     return { ...accCell, possibleStartPos: false };
-                    //   }
-                    // } else {
-                    //   if (accCell.c !== pathAction.cell.c || accCell.r !== pathAction.cell.r) {
-                    //     return { ...accCell, possibleStartPos: false };
-                    //   }
-                    // }
+                    //if not last and not first skip
                     break;
+
                   case 'miss':
                     // if path node is equal to miss mark node as not starting loc and move on
 
@@ -330,6 +376,7 @@ const RadioApp = () => {
                 startPos: cell.possibleStartPos,
                 endPos: cell.possibleEndPos
               })}
+              // onMouseOver={() => console.log(`Hovering Cell ${r}-${c}`)}
               onClick={() => {
                 console.log('click');
                 raidoDispatch({ type: radioState.mapAction, payload: { r, c } });
@@ -352,8 +399,8 @@ const RadioApp = () => {
         </button>
       </div>
       <div className='log'>
-        {radioState.path.map(pathAction => (
-          <div className='log-entry'>
+        {radioState.path.map((pathAction, i) => (
+          <div className='log-entry' key={i}>
             <span className='action'>{pathAction.action}</span>
             <span className='type'>{pathAction.type}</span>
             {pathAction.cell ? (
