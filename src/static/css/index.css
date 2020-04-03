@@ -13,6 +13,9 @@ body {
 .startPos {
   background-color: #f6ae2d;
 }
+.endPos {
+  border: solid 1px #f26419;
+}
 .island {
   background-color: #758e4f;
 }

@@ -58,14 +58,39 @@ const RadioApp = () => {
           path: [...state.path, { action: 'sonar', type: 'miss', hit: false, cell: action.payload }]
         };
       case 'move':
+        const calcedGrid = calcPath(
+          state.grid,
+          [...state.path, { action: 'direction', type: action.payload }],
+          state.rows
+        );
+
+        const flatGrid = [].concat.apply([], calcedGrid);
+
+        console.log(flatGrid);
+
+        const possibleEndPos = flatGrid
+          .filter(cell => cell.possibleStartPos && cell.pathCell)
+          .map(cell => cell.pathCell);
+
+        console.log(possibleEndPos);
+
+        const grid = calcedGrid.map((rows, r) => {
+          return rows.map((cell, c) => {
+            return {
+              ...cell,
+              possibleEndPos:
+                possibleEndPos.findIndex(endCell => endCell.r === cell.r && endCell.c === cell.c) +
+                1
+                  ? true
+                  : false
+            };
+          });
+        });
+
         return {
           ...state,
           path: [...state.path, { action: 'direction', type: action.payload }],
-          grid: calcPath(
-            state.grid,
-            [...state.path, { action: 'direction', type: action.payload }],
-            state.rows
-          )
+          grid
         };
       default:
         return null;
@@ -123,9 +148,37 @@ const RadioApp = () => {
                 switch (pathAction.type) {
                   case 'hit':
                     // if path node is not == to hit mark node as not starting loc and move on
+
+                    // This block doesnt work - it's close but It count's the sonars individually not as an array or group...
+                    // if (accCell.pathCell) {
+                    //   if (
+                    //     accCell.pathCell.c !== pathAction.cell.c ||
+                    //     accCell.pathCell.r !== pathAction.cell.r
+                    //   ) {
+                    //     return { ...accCell, possibleStartPos: false };
+                    //   }
+                    // } else {
+                    //   if (accCell.c !== pathAction.cell.c || accCell.r !== pathAction.cell.r) {
+                    //     return { ...accCell, possibleStartPos: false };
+                    //   }
+                    // }
                     break;
                   case 'miss':
                     // if path node is equal to miss mark node as not starting loc and move on
+
+                    // This block appears to work - because it's marking misses and not hit's it can focus on each miss individually
+                    if (accCell.pathCell) {
+                      if (
+                        accCell.pathCell.c === pathAction.cell.c &&
+                        accCell.pathCell.r === pathAction.cell.r
+                      ) {
+                        return { ...accCell, possibleStartPos: false };
+                      }
+                    } else {
+                      if (accCell.c === pathAction.cell.c && accCell.r === pathAction.cell.r) {
+                        return { ...accCell, possibleStartPos: false };
+                      }
+                    }
                     break;
 
                   default:
@@ -274,7 +327,8 @@ const RadioApp = () => {
               className={className({
                 cell: true,
                 island: cell.isIsland,
-                startPos: cell.possibleStartPos
+                startPos: cell.possibleStartPos,
+                endPos: cell.possibleEndPos
               })}
               onClick={() => {
                 console.log('click');
